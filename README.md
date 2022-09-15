@@ -1,12 +1,16 @@
 # RotaryCellphone
 
+This repo has been endorsed as the "official" firmware for the [Open Source Rotary Cellphone](https://github.com/jhaupt/RotaryCellphone) - thanks Justine
+
 ![Two finished RotaryCellphones](images/two_phones.jpg "Two finished RotaryCellphones")
 
 ![Molded leather cases](images/leather_cases.jpg "Molded leather cases")
 
-The motivation behind this fork is to complete the original firmware (April 2020) to a good working state with a range of basic features while keeping to the original framework (e.g. North American area code prepend) as closely as possible. 
+The motivation behind this (now detached) fork is to complete the [original firmware](https://github.com/jhaupt/RotaryCellphone) (April 2020) to a good working state with a range of basic features while keeping to the original framework (e.g. North American area code prepend) as closely as possible.
 
-Secondary motivation is to contribute something back to Justine for making this excellent 3G project open source.
+Secondary reason is to contribute something back to Justine for making her excellent project open source.
+
+I changed the sketch directory layout early on, rapidly introduced many changes such that managing the upstream - fork relationship would require significant effort. Therefore this fork is now detached.
 
 ## Hardware
 
@@ -59,7 +63,7 @@ Changed name of *main.ino* to *RotaryCellphone.ino*. This removes the requiremen
 
 ## Future work
 
-August 2020: no new features are planned for this fork, only bug fixes.
+August 2020: no new features are planned for this (now detached) fork, only bug fixes.
 
 To add features consider putting the 'smartness' upstream, e.g. routing calls through a home PBX based on Asterisk and FreePBX running a Single Board Computer (SBC). Possible features include; call recording, ring groups, diversion, announcements, Interactive Voice Response... you could even make a button on your RotaryCellPhone open a door or turn on driveway lighting:
 
@@ -69,3 +73,5 @@ To add features consider putting the 'smartness' upstream, e.g. routing calls th
 - [Call PBX to open a door (skip to 4:50)](https://www.youtube.com/watch?v=kbODHbJyEX4)
 
 It might be possible to use a third party phone module library, some have been considered. TinyGSM is compatible with the SIM5320 but currently not for voice - keep an eye on TinyGSM developments. The Adafruit FONA library requires the RI (ring indicator) wired to a pin using a specific interupt (another hardware mod would be required). A third party library is likely to require several ATmega pin changes.
+
+The leather cases are a skill I learned during lockdown with help from a [video tutorial](https://www.youtube.com/watch?v=lGikTadTN64) by Leodis Leather. The embossing was made with a laser engraved acetal block pressed onto the cased (dampened) leather.
