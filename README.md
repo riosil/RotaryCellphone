@@ -1,12 +1,12 @@
 # RotaryCellphone
 
-This repo has been endorsed as the "official" firmware for the [Open Source Rotary Cellphone](https://github.com/jhaupt/RotaryCellphone) - thanks Justine
+This repo has been endorsed as containing the "official" [firmware](https://github.com/riosil/RotaryCellphone/tree/master/no-mod/main) for the original 3G [Open Source Rotary Cellphone](https://github.com/jhaupt/RotaryCellphone) - thanks Justine
 
 ![Two finished RotaryCellphones](images/two_phones.jpg "Two finished RotaryCellphones")
 
 ![Molded leather cases](images/leather_cases.jpg "Molded leather cases")
 
-The motivation behind this (now detached) fork is to complete the [original firmware](https://github.com/jhaupt/RotaryCellphone) (April 2020) to a good working state with a range of basic features while keeping to the original framework (e.g. North American area code prepend) as closely as possible.
+The motivation behind this (now detached) fork is to complete the original firmware (April 2020) to a good working state with a range of basic features while keeping to the original framework (e.g. North American area code prepend) as closely as possible.
 
 Secondary reason is to contribute something back to Justine for making her excellent project open source.
 
