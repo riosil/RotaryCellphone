@@ -1,5 +1,5 @@
 # RotaryCellphone
-## Firmware boards without the FONA Tx pin re-wire modification
+## Firmware for boards without the FONA Tx pin re-wire modification
 
 This is Justine's 19 April 2020 firmware with the following fixes:
 

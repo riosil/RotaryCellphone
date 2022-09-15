@@ -1,6 +1,6 @@
 # RotaryCellphone
 
-This repo has been endorsed as containing the "official" [firmware](https://github.com/riosil/RotaryCellphone/tree/master/no-mod/main) for the original 3G [Open Source Rotary Cellphone](https://github.com/jhaupt/RotaryCellphone) - thanks Justine
+This repo has been endorsed as containing the "official" firmware for the original 3G [Open Source Rotary Cellphone](https://github.com/jhaupt/RotaryCellphone). This refers to firmware in the *no-mods* directory (meaning hardware modifications to the board are not required) - thanks Justine
 
 ![Two finished RotaryCellphones](images/two_phones.jpg "Two finished RotaryCellphones")
 
