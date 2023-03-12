@@ -1,26 +1,20 @@
-# RotaryCellphone
+# Firmware for the RotaryCellphone
 
-This repo has been endorsed as containing the "official" firmware for the original 3G [Open Source Rotary Cellphone](https://github.com/jhaupt/RotaryCellphone). The endorsement refers to firmware in the *no-mods* directory (meaning hardware modifications to the board are not required) - thanks Justine
+Firmware for Justine's original 3G [Rotary Cellphone](https://skysedge.com/unsmartphones/rotarycellphone_3g), not the 4G [Rotary Un-Smartphone](https://skysedge.com/unsmartphones/RUSP/index.html). 
+
+The firmware in the [no-mod](no-mod/main) folder has been endorsed by Justine as official, where *'no-mod'* means hardware modifications are not required.
 
 ![Two finished RotaryCellphones](images/two_phones.jpg "Two finished RotaryCellphones")
 
 ![Molded leather cases](images/leather_cases.jpg "Molded leather cases")
 
-The motivation behind this (now detached) fork is to complete the original firmware (April 2020) to a good working state with a range of basic features while keeping to the original framework (e.g. North American area code prepend) as closely as possible.
-
-Secondary reason is to contribute something back to Justine for making her excellent project open source.
-
-I changed the sketch directory layout early on, rapidly introduced many changes such that managing the upstream - fork relationship would require significant effort. Therefore this fork is now detached.
-
 ## Hardware
 
-**Hardware mod required**
+The FONA Tx cannot talk to the ATmega on pin 19 after the e-paper display is initialised because pin 19 is also the SPI SS pin. The display uses SPI and sets pin 19 to output resulting in two outputs connected together (easily missed).
 
-The FONA Tx cannot talk to the ATmega2560 on pin 19 after the e-paper display is initialised. This is because pin 19 is also the SPI SS pin. The display uses SPI which sets pin 19 to output. This means an output is connected to an output and the FONA cannot send data to the ATmega.
+The solution is to use another ATmega pin for FONA Tx. Digital pin 12 was chosen because it is one of the few ATmega pins that work with Software Serial and because its corner position makes it easier to solder. **The firmware in this folder requires that FONA Tx is re-wired from pin 19 to pin 25.**
 
-**Quick and dirty hack:** the ATmega SPI SS pin could be reset to input mode after display initialisation. This would work until the FONA pulls SS low causing the ATmega to switch its SPI to slave mode. The ATmega then locks up when it call the display functions. This ATmega SPI mode switching is done in ATmega hardware, aka microcode, and can't be changed. The quick and dirty hack is to use a watchdog timer to reset the ATmega after it locks up. See here for an example: [forum discussion on firmware](https://skysedge.us/forum/viewtopic.php?f=4&t=1486&start=25) (link broken due to database loss).
-
-**Solution:** is to use another ATmega pin for FONA Tx. Pin 25, (aka Aduino digital pin 12) was chosen because it is one of the few ATmega pins that work with Software Serial and because its corner position makes it easier to solder. **The firmware in this directory requires that FONA Tx is re-wired from pin 19 to pin 25.**
+For un-modified boards, use the firmware in the [no-mod](no-mod/main) folder.
 
 ![Preparing the via](images/hwmod_part1.jpg "Cut the track and prepare the via as a solder pad")
 
@@ -28,22 +22,20 @@ The FONA Tx cannot talk to the ATmega2560 on pin 19 after the e-paper display is
 
 FONA Tx rewired to ATmega pin 25 with 0.2mm 'Vero' wire.
 
-### Vibration motor
+#### Vibration motor
 
-The vibration motor circuit, if available and installed, is working. The vibrate alert is enabled when ring volume is set to zero.
-
-**Important:** comment out `#define HAS_VIBRATE` depending on board version. If the board has space for a vibration motor, this should be left defined whether or not a motor is fitted. This is due to differences in connections to the mode switch between board versions.
+It works (where fitted), I have no idea what the original problem was. Comment out `#define HAS_VIBRATE` if the board version does not have space for a vibration motor. This is due to a difference with mode switch wiring between PCB versions. The original PCB (and my clone) has a vibration motor, the kit PCBs do not.
 
 ## Firmware
 
-**The firmware in this directory only works with the above FONA Tx hardware mod.** For un-modified boards, use the firmware in the *no-mods* directory.
+### Official 'no-mod' firmware 
+The ATmega SPI SS pin can be reset to input mode after a display update, this works until the next update. The quick hack [here](no-mod-main) resets the SS pin to input and adds a watchdog timer to reset the ATmega. The watchdog reset is only required when the FONA talks to the ATmega during a display update (hopefully not very often).
 
-### Filename change
+### Unnoficial firmware
 
-Changed name of *main.ino* to *RotaryCellphone.ino*. This removes the requirement to put everything in a *main* subfolder and makes development a little easier from a Git local repository. All sketch files should be directly under the folder: *RotaryCellphone*.
+The firmware in this folder only works with the above FONA Tx pin re-wiring mod.
 
-### Working features
-
+- Changed the name of *main.ino* to *RotaryCellphone.ino* removing the requirement to put everything in a *main* sub-folder.
 - Reliably decode FONA messages by parsing AT command responses
 - Fix signal strength and battery charge bargraph displays
 - Display time from cell network using fast partial update
@@ -56,22 +48,23 @@ Changed name of *main.ino* to *RotaryCellphone.ino*. This removes the requiremen
 - FONA will wake up on receiving a call or if the 'C' button is held for 1 second.
 - Hold the 'C' button for 1s to return to the default screen after a number lookup
 - Shutdown the phone when battery voltage drops below 3.3V
-- Restart the phone when battery voltage rises above 3.5V (recharging)
+- Restart the phone when battery voltage rises above 3.5V (charging)
 - When the phone shuts down, the Hook LED flashes once every 4s to indicate charging is required
 - Passthrough mode. Hold 'C' while the phone is starting to communicate with the FONA module directly
-- Easter egg, sorry there aren't any... yet!
 
 ## Future work
 
 August 2020: no new features are planned for this (now detached) fork, only bug fixes.
 
-To add features consider putting the 'smartness' upstream, e.g. routing calls through a home PBX based on Asterisk and FreePBX running a Single Board Computer (SBC). Possible features include; call recording, ring groups, diversion, announcements, Interactive Voice Response... you could even make a button on your RotaryCellPhone open a door or turn on driveway lighting:
+I would like a new version of the enclosure bottom so the e-paper display does not have to be bent but I only have the STL files. Editing STL files for this 'organic' shape is almost impossible and I don't have the orginal Inventor files. Even if I did, I'm not an Autodesk Inventor fan, i.e. it's beyond me.
+
+To add features consider putting the 'smartness' upstream, e.g. routing calls through a home PBX based on Asterisk and FreePBX on a Single Board Computer (SBC). Possible features include; call recording, ring groups, diversion, announcements, Interactive Voice Response... you could even make a button on the RotaryCellPhone open a door or turn on driveway lighting:
 
 - [BeagleBone PBX (somewhat disingenuous about current Pi versions)](http://beaglebone-asterisk.raspbx.org/)  
 - [Raspberry Pi PBX (low power, very reliable on a Pi3/4 and handles an insane amount of calls)](http:www.raspberry-asterisk.org/)  
 - [How Many Calls on Raspberry Pi with Asterisk PBX?](https://www.youtube.com/watch?v=dVGf3HrKZl4)  
 - [Call PBX to open a door (skip to 4:50)](https://www.youtube.com/watch?v=kbODHbJyEX4)
 
-It might be possible to use a third party phone module library, some have been considered. TinyGSM is compatible with the SIM5320 but currently not for voice - keep an eye on TinyGSM developments. The Adafruit FONA library requires the RI (ring indicator) wired to a pin using a specific interupt (another hardware mod would be required). A third party library is likely to require several ATmega pin changes.
+It might be possible to use a third party phone module library, some have been considered. TinyGSM is compatible with the SIM5320 but currently not for voice (at the time of writing). The Adafruit FONA library requires the RI (ring indicator) wired to a pin using a specific interupt (another hardware mod would be required).
 
 The leather cases are a skill I learned during lockdown with help from a [video tutorial](https://www.youtube.com/watch?v=lGikTadTN64) by Leodis Leather. The embossing was made with a laser engraved acetal block pressed onto the cased (dampened) leather.
